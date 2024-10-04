@@ -1,0 +1,19 @@
+name: boxzpot
+description: Mapeador de Depósito Físico para o AtoM
+publish_to: 'none'
+version: 1.0.0-0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^4.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
