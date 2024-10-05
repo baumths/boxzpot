@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../box_details/box_details.dart';
 import '../box_editor/box_editor.dart';
 import 'boxes_store.dart';
 
@@ -18,9 +19,12 @@ class BoxesOverview extends StatelessWidget {
               title: Text('${box.code} - ${box.name}'),
               subtitle: Text(box.hash),
               trailing: const Icon(Icons.arrow_right_rounded),
-              onTap: () {
-                // TODO: navigate to box details
-              },
+              onTap: () => Navigator.push<void>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BoxDetails(box: box),
+                ),
+              ),
             ),
         ],
       ),
