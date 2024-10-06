@@ -7,10 +7,13 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  cross_file: ^0.3.4+2
   flutter:
     sdk: flutter
   provider: ^6.1.2
+  qr_flutter: ^4.1.0
   sqlite3: ^2.4.6
+  widgets_to_image: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
