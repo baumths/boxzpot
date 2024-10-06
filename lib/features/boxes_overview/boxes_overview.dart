@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../shared/box_title.dart';
 import '../box_details/box_details.dart';
 import '../box_editor/box_editor.dart';
 import 'boxes_store.dart';
@@ -16,8 +17,7 @@ class BoxesOverview extends StatelessWidget {
         children: [
           for (final box in store.boxes)
             ListTile(
-              title: Text('${box.code} - ${box.name}'),
-              subtitle: Text(box.hash),
+              title: BoxTitle(box: box),
               trailing: const Icon(Icons.arrow_right_rounded),
               onTap: () => Navigator.push<void>(
                 context,

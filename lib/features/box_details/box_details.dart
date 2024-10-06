@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../../entities/box.dart';
+import '../../shared/box_title.dart';
 
 class BoxDetails extends StatelessWidget {
   const BoxDetails({super.key, required this.box});
@@ -56,7 +57,7 @@ class BoxInfoCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${box.code} - ${box.name}'),
+              BoxTitle(box: box),
               if (box.description.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(box.description),
