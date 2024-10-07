@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../database/database.dart';
 import '../features/boxes_overview/boxes_overview.dart';
-import '../features/boxes_overview/boxes_store.dart';
+import '../shared/boxes_store.dart';
 
 class BoxzpotApp extends StatelessWidget {
   const BoxzpotApp({super.key, required this.database});
