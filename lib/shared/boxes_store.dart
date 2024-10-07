@@ -35,6 +35,20 @@ class BoxesStore with ChangeNotifier {
     );
   }
 
+  void updateBox({
+    required int boxId,
+    required String name,
+    required String code,
+    required String description,
+  }) {
+    _db.updateBox(
+      boxId: boxId,
+      code: code,
+      name: name,
+      description: description,
+    );
+  }
+
   @override
   void dispose() {
     _subscription?.cancel();

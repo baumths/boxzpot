@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
+import '../../shared/boxes_store.dart';
 
 typedef BoxEditorResult = ({String code, String name, String description});
 
@@ -8,13 +10,47 @@ class BoxEditor extends StatefulWidget {
   const BoxEditor({
     super.key,
     required this.box,
-    required this.onSubmitted,
     required this.onDismissed,
+    required this.onSubmitted,
   });
 
   final Box? box;
-  final ValueChanged<BoxEditorResult> onSubmitted;
   final VoidCallback onDismissed;
+  final ValueChanged<BoxEditorResult> onSubmitted;
+
+  static void show(BuildContext context, {Box? box}) async {
+    final store = context.read<BoxesStore>();
+
+    final result = await showDialog<BoxEditorResult>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: BoxEditor(
+          box: box,
+          onDismissed: () => Navigator.pop(context),
+          onSubmitted: (BoxEditorResult result) {
+            Navigator.pop(context, result);
+          },
+        ),
+      ),
+    );
+
+    if (result == null) return;
+
+    if (box == null) {
+      store.createBox(
+        code: result.code,
+        name: result.name,
+        description: result.description,
+      );
+    } else {
+      store.updateBox(
+        boxId: box.id,
+        name: result.name,
+        code: result.code,
+        description: result.description,
+      );
+    }
+  }
 
   @override
   State<BoxEditor> createState() => BoxEditorState();

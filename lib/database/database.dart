@@ -91,6 +91,29 @@ class AppDatabase {
     _db.execute('DELETE FROM boxes WHERE id = ?', [boxId]);
   }
 
+  void updateBox({
+    required int boxId,
+    String? code,
+    String? name,
+    String? description,
+  }) {
+    _db.execute(
+      """
+      UPDATE boxes SET
+        code = ?,
+        name = ?,
+        description = ?
+      WHERE id = ?
+      """,
+      [
+        code,
+        name,
+        description,
+        boxId,
+      ],
+    );
+  }
+
   BoxItem addItemToBox({
     required int boxId,
     required String code,

@@ -25,31 +25,13 @@ class BoxesOverview extends StatelessWidget {
                   builder: (_) => BoxDetails(box: box),
                 ),
               ),
+              onLongPress: () => BoxEditor.show(context, box: box),
             ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () async {
-          final result = await showDialog<BoxEditorResult?>(
-            context: context,
-            builder: (context) {
-              return Dialog(
-                child: BoxEditor(
-                  box: null,
-                  onSubmitted: (result) => Navigator.pop(context, result),
-                  onDismissed: () => Navigator.pop(context),
-                ),
-              );
-            },
-          );
-          if (result == null) return;
-          store.createBox(
-            code: result.code,
-            name: result.name,
-            description: result.description,
-          );
-        },
+        onPressed: () => BoxEditor.show(context),
       ),
     );
   }
