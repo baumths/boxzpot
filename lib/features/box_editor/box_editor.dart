@@ -46,6 +46,7 @@ class BoxEditorState extends State<BoxEditor> {
               ),
               const SizedBox(height: 24),
               TextFormField(
+                initialValue: code,
                 decoration: const InputDecoration(
                   labelText: 'Code',
                   helperText: 'Mandatory field.',
@@ -63,6 +64,7 @@ class BoxEditorState extends State<BoxEditor> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                initialValue: name,
                 decoration: const InputDecoration(
                   labelText: 'Name',
                   helperText: 'Mandatory field.',
@@ -80,6 +82,7 @@ class BoxEditorState extends State<BoxEditor> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                initialValue: description,
                 maxLines: null,
                 decoration: const InputDecoration(
                   labelText: 'Description',
