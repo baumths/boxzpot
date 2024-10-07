@@ -8,6 +8,7 @@ import '../../entities/box.dart';
 class BoxesStore with ChangeNotifier {
   BoxesStore(this._db) {
     _subscription = _db.watchAllBoxes().listen(_onBoxesChanged);
+    _onBoxesChanged(_db.getAllBoxes());
   }
 
   final AppDatabase _db;
