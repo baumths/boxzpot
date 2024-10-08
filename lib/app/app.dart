@@ -14,6 +14,7 @@ class BoxzpotApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<AppDatabase>.value(value: database),
         ChangeNotifierProvider(create: (_) => BoxesStore(database)),
       ],
       child: const MaterialApp(
