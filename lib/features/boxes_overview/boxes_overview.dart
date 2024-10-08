@@ -22,7 +22,7 @@ class BoxesOverview extends StatelessWidget {
               onTap: () => Navigator.push<void>(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => BoxDetails(box: box),
+                  builder: (_) => BoxDetails(boxId: box.id),
                 ),
               ),
               onLongPress: () => BoxEditor.show(context, box: box),

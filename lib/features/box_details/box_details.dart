@@ -1,15 +1,35 @@
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
+import '../../database/database.dart';
 import '../../entities/box.dart';
 import '../../shared/box_title.dart';
+import 'box_details_store.dart';
+import 'box_item_editor.dart';
+import 'box_items.dart';
 
 class BoxDetails extends StatelessWidget {
-  const BoxDetails({super.key, required this.box});
+  const BoxDetails({super.key, required this.boxId});
 
-  final Box box;
+  final int boxId;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<BoxDetailsStore>(
+      create: (_) => BoxDetailsStore(
+        database: context.read<AppDatabase>(),
+        boxId: boxId,
+      ),
+      child: const BoxDetailsView(),
+    );
+  }
+}
+
+class BoxDetailsView extends StatelessWidget {
+  const BoxDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,33 +41,42 @@ class BoxDetails extends StatelessWidget {
           IconButton(
             onPressed: () => showDialog<void>(
               context: context,
-              builder: (_) => Dialog(child: BoxQrCodeView(box: box)),
+              builder: (_) => Dialog(
+                child: BoxQrCodeView(
+                  box: context.read<BoxDetailsStore>().box,
+                ),
+              ),
             ),
             icon: const Icon(Icons.qr_code),
           ),
           const SizedBox(width: 8),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BoxInfoCard(box: box),
+            BoxInfoCard(),
+            SizedBox(height: 8),
+            BoxItems(),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => BoxItemEditor.show(context),
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
 class BoxInfoCard extends StatelessWidget {
-  const BoxInfoCard({super.key, required this.box});
-
-  final Box box;
+  const BoxInfoCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final box = context.select<BoxDetailsStore, Box>((store) => store.box);
     return Card.outlined(
       margin: EdgeInsets.zero,
       child: Padding(
@@ -57,7 +86,10 @@ class BoxInfoCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BoxTitle(box: box),
+              BoxTitle(
+                box: box,
+                overflow: TextOverflow.visible,
+              ),
               if (box.description.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(box.description),

@@ -40,18 +40,18 @@ class AppDatabase {
     final result = _db.select(
       'SELECT id, hash, code, name, description FROM boxes',
     );
-    return result.rows.map((List<Object?> row) {
-      return Box(
-        id: row[0] as int,
-        hash: row[1] as String,
-        code: row[2] as String? ?? '',
-        name: row[3] as String? ?? '',
-        description: row[4] as String? ?? '',
-      );
-    }).toList(growable: false);
+    return result.rows.map(_boxFromRow).toList(growable: false);
   }
 
-  List<BoxItem> getAllItemsInBox(int boxId) {
+  Box getBoxById(int boxId) {
+    final result = _db.select(
+      'SELECT id, hash, code, name, description FROM boxes WHERE id = ?',
+      [boxId],
+    );
+    return _boxFromRow(result.rows.first);
+  }
+
+  List<BoxItem> getBoxItems(int boxId) {
     final result = _db.select(
       'SELECT id, code, title, date, access_points FROM items WHERE box_id = ?',
       [boxId],
@@ -135,6 +135,32 @@ class AppDatabase {
     );
   }
 
+  void updateBoxItem({
+    required int itemId,
+    String? code,
+    String? title,
+    String? date,
+    String? accessPoints,
+  }) {
+    _db.execute(
+      """
+      UPDATE items SET
+        code = ?,
+        title = ?,
+        date = ?,
+        access_points = ?
+      WHERE id = ?
+      """,
+      [
+        code,
+        title,
+        date,
+        accessPoints,
+        itemId,
+      ],
+    );
+  }
+
   void deleteBoxItem(int itemId) {
     _db.execute('DELETE FROM items WHERE id = ?', [itemId]);
   }
@@ -142,4 +168,22 @@ class AppDatabase {
   Stream<List<Box>> watchAllBoxes() => _db.updates
       .where((update) => update.tableName == 'boxes')
       .map((_) => getAllBoxes());
+
+  Stream<Box> watchBox(int boxId) => _db.updates
+      .where((update) => update.tableName == 'boxes')
+      .map((_) => getBoxById(boxId));
+
+  Stream<List<BoxItem>> watchBoxItems(int boxId) => _db.updates
+      .where((update) => update.tableName == 'items')
+      .map((_) => getBoxItems(boxId));
+
+  Box _boxFromRow(List<Object?> row) {
+    return Box(
+      id: row[0] as int,
+      hash: row[1] as String,
+      code: row[2] as String? ?? '',
+      name: row[3] as String? ?? '',
+      description: row[4] as String? ?? '',
+    );
+  }
 }
