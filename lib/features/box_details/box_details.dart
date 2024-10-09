@@ -7,6 +7,7 @@ import 'package:widgets_to_image/widgets_to_image.dart';
 import '../../database/database.dart';
 import '../../entities/box.dart';
 import '../../shared/box_title.dart';
+import '../box_editor/box_editor.dart';
 import 'box_details_store.dart';
 import 'box_item_editor.dart';
 import 'box_items.dart';
@@ -78,23 +79,27 @@ class BoxInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final box = context.select<BoxDetailsStore, Box>((store) => store.box);
     return Card.outlined(
+      clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BoxTitle(
-                box: box,
-                overflow: TextOverflow.visible,
-              ),
-              if (box.description.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                Text(box.description),
+      child: InkWell(
+        onTap: () => BoxEditor.show(context, box: box),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BoxTitle(
+                  box: box,
+                  overflow: TextOverflow.visible,
+                ),
+                if (box.description.isNotEmpty) ...[
+                  const SizedBox(height: 16),
+                  Text(box.description),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
