@@ -7,10 +7,12 @@ class BoxTitle extends StatelessWidget {
     super.key,
     required this.box,
     this.overflow = TextOverflow.ellipsis,
+    this.style,
   });
 
   final Box box;
   final TextOverflow? overflow;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class BoxTitle extends StatelessWidget {
           TextSpan(text: box.name),
         ],
       ),
+      style: style,
       overflow: overflow,
     );
   }
