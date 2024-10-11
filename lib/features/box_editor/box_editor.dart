@@ -80,7 +80,7 @@ class BoxEditorState extends State<BoxEditor> {
                 widget.box == null ? 'New Box' : 'Editing Box',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: code,
                 decoration: const InputDecoration(
@@ -125,7 +125,7 @@ class BoxEditorState extends State<BoxEditor> {
                 ),
                 onSaved: (value) => description = value?.trim() ?? '',
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
