@@ -17,6 +17,12 @@ class BoxDetails extends StatelessWidget {
 
   final int boxId;
 
+  static void show(BuildContext context, Box box) {
+    Navigator.of(context).push<void>(
+      MaterialPageRoute(builder: (_) => BoxDetails(boxId: box.id)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BoxDetailsStore>(

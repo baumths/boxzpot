@@ -41,13 +41,21 @@ class BoxesList extends StatelessWidget {
       );
     }
 
-    return ListView(
-      itemExtent: 400,
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.all(24),
-      children: [
-        for (final Box box in store.boxes) BoxCard(box: box),
-      ],
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final (axis, extent) = switch (constraints.maxWidth) {
+          >= 500 => (Axis.horizontal, 400.0),
+          _ => (Axis.vertical, constraints.maxHeight - 100),
+        };
+        return ListView(
+          itemExtent: extent,
+          scrollDirection: axis,
+          padding: const EdgeInsets.all(12),
+          children: [
+            for (final Box box in store.boxes) BoxCard(box: box),
+          ],
+        );
+      },
     );
   }
 }
@@ -59,61 +67,67 @@ class BoxCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final border = Border.all(
-      color: Theme.of(context).colorScheme.outlineVariant,
-    );
     return Card.outlined(
-      margin: const EdgeInsetsDirectional.only(end: 24),
+      margin: const EdgeInsets.all(12),
       child: InkWell(
+        onTap: () => BoxDetails.show(context, box),
         borderRadius: BorderRadius.circular(12),
-        onTap: () => Navigator.of(context).push<void>(
-          MaterialPageRoute(builder: (_) => BoxDetails(boxId: box.id)),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: border,
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: BoxTitle(
-                          box: box,
-                          overflow: TextOverflow.visible,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      const Divider(height: 1),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Text(box.description),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Expanded(
+                child: BoxLabel(box: box),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: DecoratedBox(
+              const SizedBox(height: 24),
+              DecoratedBox(
                 decoration: BoxDecoration(
-                  border: border,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
                   shape: BoxShape.circle,
                 ),
                 child: const SizedBox.square(dimension: 64),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class BoxLabel extends StatelessWidget {
+  const BoxLabel({super.key, required this.box});
+
+  final Box box;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: BoxTitle(
+              box: box,
+              overflow: TextOverflow.visible,
+              style: const TextStyle(fontSize: 14),
+            ),
+          ),
+          const Divider(height: 1),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(box.description),
+            ),
+          ),
+        ],
       ),
     );
   }
