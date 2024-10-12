@@ -70,7 +70,7 @@ class BoxEditorState extends State<BoxEditor> {
       key: formKey,
       child: SizedBox(
         width: 600,
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
