@@ -4,35 +4,35 @@ import 'package:provider/provider.dart';
 import '../../entities/box.dart';
 import 'box_details_store.dart';
 
-typedef BoxItemEditorResult = ({
+typedef DocumntEditorResult = ({
   String code,
   String title,
   String date,
   String accessPoints,
 });
 
-class BoxItemEditor extends StatefulWidget {
-  const BoxItemEditor({
+class DocumentEditor extends StatefulWidget {
+  const DocumentEditor({
     super.key,
-    required this.item,
+    required this.document,
     required this.onDismissed,
     required this.onSubmitted,
   });
 
-  final BoxItem? item;
+  final Document? document;
   final VoidCallback onDismissed;
-  final ValueChanged<BoxItemEditorResult> onSubmitted;
+  final ValueChanged<DocumntEditorResult> onSubmitted;
 
-  static void show(BuildContext context, {BoxItem? item}) async {
+  static void show(BuildContext context, {Document? document}) async {
     final store = context.read<BoxDetailsStore>();
 
-    final result = await showDialog<BoxItemEditorResult>(
+    final result = await showDialog<DocumntEditorResult>(
       context: context,
       builder: (BuildContext context) => Dialog(
-        child: BoxItemEditor(
-          item: item,
+        child: DocumentEditor(
+          document: document,
           onDismissed: () => Navigator.pop(context),
-          onSubmitted: (BoxItemEditorResult result) {
+          onSubmitted: (DocumntEditorResult result) {
             Navigator.pop(context, result);
           },
         ),
@@ -41,16 +41,16 @@ class BoxItemEditor extends StatefulWidget {
 
     if (result == null) return;
 
-    if (item == null) {
-      store.addItem(
+    if (document == null) {
+      store.addDocument(
         code: result.code,
         title: result.title,
         date: result.date,
         accessPoints: result.accessPoints,
       );
     } else {
-      store.updateItem(
-        itemId: item.id,
+      store.updateDocument(
+        documentId: document.id,
         title: result.title,
         code: result.code,
         date: result.date,
@@ -60,16 +60,16 @@ class BoxItemEditor extends StatefulWidget {
   }
 
   @override
-  State<BoxItemEditor> createState() => BoxItemEditorState();
+  State<DocumentEditor> createState() => DocumentEditorState();
 }
 
-class BoxItemEditorState extends State<BoxItemEditor> {
+class DocumentEditorState extends State<DocumentEditor> {
   final formKey = GlobalKey<FormState>();
 
-  late var code = widget.item?.code ?? '';
-  late var title = widget.item?.title ?? '';
-  late var date = widget.item?.date ?? '';
-  late var accessPoints = widget.item?.accessPoints ?? '';
+  late var code = widget.document?.code ?? '';
+  late var title = widget.document?.title ?? '';
+  late var date = widget.document?.date ?? '';
+  late var accessPoints = widget.document?.accessPoints ?? '';
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class BoxItemEditorState extends State<BoxItemEditor> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.item == null ? 'New Item' : 'Editing Item',
+                widget.document == null ? 'New Document' : 'Editing Document',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),

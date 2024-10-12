@@ -14,8 +14,8 @@ class Box {
   final String description;
 }
 
-class BoxItem {
-  const BoxItem({
+class Document {
+  const Document({
     required this.id,
     required this.boxId,
     required this.code,

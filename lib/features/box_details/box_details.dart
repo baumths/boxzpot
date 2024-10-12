@@ -9,8 +9,8 @@ import '../../entities/box.dart';
 import '../../shared/box_title.dart';
 import '../box_editor/box_editor.dart';
 import 'box_details_store.dart';
-import 'box_item_editor.dart';
-import 'box_items.dart';
+import 'document_editor.dart';
+import 'documents_list.dart';
 
 class BoxDetails extends StatelessWidget {
   const BoxDetails({super.key, required this.boxId});
@@ -60,12 +60,12 @@ class BoxDetailsView extends StatelessWidget {
           children: [
             BoxInfoCard(),
             SizedBox(height: 8),
-            BoxItems(),
+            DocumentsList(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => BoxItemEditor.show(context),
+        onPressed: () => DocumentEditor.show(context),
         child: const Icon(Icons.add),
       ),
     );

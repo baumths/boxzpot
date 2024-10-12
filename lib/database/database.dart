@@ -23,7 +23,7 @@ class AppDatabase {
         description TEXT
       );
 
-      CREATE TABLE IF NOT EXISTS items (
+      CREATE TABLE IF NOT EXISTS documents (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         box_id INTEGER NOT NULL REFERENCES boxes(id) ON DELETE CASCADE,
         code TEXT,
@@ -51,13 +51,13 @@ class AppDatabase {
     return _boxFromRow(result.rows.first);
   }
 
-  List<BoxItem> getBoxItems(int boxId) {
+  List<Document> getDocumentsByBoxId(int boxId) {
     final result = _db.select(
-      'SELECT id, code, title, date, access_points FROM items WHERE box_id = ?',
+      'SELECT id, code, title, date, access_points FROM documents WHERE box_id = ?',
       [boxId],
     );
     return result.rows.map((List<Object?> row) {
-      return BoxItem(
+      return Document(
         id: row[0] as int,
         boxId: boxId,
         code: row[1] as String? ?? '',
@@ -114,7 +114,7 @@ class AppDatabase {
     );
   }
 
-  BoxItem addItemToBox({
+  Document addDocumentToBox({
     required int boxId,
     required String code,
     required String title,
@@ -122,10 +122,10 @@ class AppDatabase {
     required String accessPoints,
   }) {
     final result = _db.select(
-      'INSERT INTO items(box_id, code, title, date, access_points) VALUES (?, ?, ?, ?, ?) RETURNING id',
+      'INSERT INTO documents(box_id, code, title, date, access_points) VALUES (?, ?, ?, ?, ?) RETURNING id',
       [boxId, code, title, date, accessPoints],
     );
-    return BoxItem(
+    return Document(
       id: result.rows.first[0] as int,
       boxId: boxId,
       code: code,
@@ -135,8 +135,8 @@ class AppDatabase {
     );
   }
 
-  void updateBoxItem({
-    required int itemId,
+  void updateDocument({
+    required int documentId,
     String? code,
     String? title,
     String? date,
@@ -144,7 +144,7 @@ class AppDatabase {
   }) {
     _db.execute(
       """
-      UPDATE items SET
+      UPDATE documents SET
         code = ?,
         title = ?,
         date = ?,
@@ -156,13 +156,13 @@ class AppDatabase {
         title,
         date,
         accessPoints,
-        itemId,
+        documentId,
       ],
     );
   }
 
-  void deleteBoxItem(int itemId) {
-    _db.execute('DELETE FROM items WHERE id = ?', [itemId]);
+  void deleteDocument(int documentId) {
+    _db.execute('DELETE FROM documents WHERE id = ?', [documentId]);
   }
 
   Stream<List<Box>> watchAllBoxes() => _db.updates
@@ -173,9 +173,9 @@ class AppDatabase {
       .where((update) => update.tableName == 'boxes')
       .map((_) => getBoxById(boxId));
 
-  Stream<List<BoxItem>> watchBoxItems(int boxId) => _db.updates
-      .where((update) => update.tableName == 'items')
-      .map((_) => getBoxItems(boxId));
+  Stream<List<Document>> watchDocumentsByBoxId(int boxId) => _db.updates
+      .where((update) => update.tableName == 'documents')
+      .map((_) => getDocumentsByBoxId(boxId));
 
   Box _boxFromRow(List<Object?> row) {
     return Box(

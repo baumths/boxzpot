@@ -3,28 +3,28 @@ import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
 import 'box_details_store.dart';
-import 'box_item_editor.dart';
+import 'document_editor.dart';
 
-class BoxItems extends StatelessWidget {
-  const BoxItems({super.key});
+class DocumentsList extends StatelessWidget {
+  const DocumentsList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final items = context.select<BoxDetailsStore, List<BoxItem>>(
-      (store) => store.items,
+    final docs = context.select<BoxDetailsStore, List<Document>>(
+      (store) => store.documents,
     );
 
-    if (items.isEmpty) {
+    if (docs.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Column(
       children: [
-        for (final BoxItem item in items)
+        for (final Document doc in docs)
           ListTile(
-            title: Text(item.title),
-            subtitle: Text(item.code),
-            onTap: () => BoxItemEditor.show(context, item: item),
+            title: Text(doc.title),
+            subtitle: Text(doc.code),
+            onTap: () => DocumentEditor.show(context, document: doc),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),

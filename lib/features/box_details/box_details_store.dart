@@ -12,18 +12,18 @@ class BoxDetailsStore with ChangeNotifier {
   }) : _db = database {
     _boxSubscription = _db.watchBox(boxId).listen(_onBoxChanged);
     _onBoxChanged(_db.getBoxById(boxId));
-    _itemsSubscription = _db.watchBoxItems(boxId).listen(_onItemsChanged);
-    _onItemsChanged(_db.getBoxItems(boxId));
+    _docsSubscription = _db.watchDocumentsByBoxId(boxId).listen(_onDocsChanged);
+    _onDocsChanged(_db.getDocumentsByBoxId(boxId));
   }
 
   final AppDatabase _db;
   final int boxId;
 
   StreamSubscription<Box>? _boxSubscription;
-  StreamSubscription<List<BoxItem>>? _itemsSubscription;
+  StreamSubscription<List<Document>>? _docsSubscription;
 
-  List<BoxItem> get items => _items;
-  List<BoxItem> _items = [];
+  List<Document> get documents => _documents;
+  List<Document> _documents = [];
 
   Box get box => _box;
   late Box _box;
@@ -33,18 +33,18 @@ class BoxDetailsStore with ChangeNotifier {
     notifyListeners();
   }
 
-  void _onItemsChanged(List<BoxItem> items) {
-    _items = items;
+  void _onDocsChanged(List<Document> docs) {
+    _documents = docs;
     notifyListeners();
   }
 
-  void addItem({
+  void addDocument({
     required String code,
     required String title,
     required String date,
     required String accessPoints,
   }) {
-    _db.addItemToBox(
+    _db.addDocumentToBox(
       boxId: boxId,
       code: code,
       title: title,
@@ -53,15 +53,15 @@ class BoxDetailsStore with ChangeNotifier {
     );
   }
 
-  void updateItem({
-    required int itemId,
+  void updateDocument({
+    required int documentId,
     required String code,
     required String title,
     required String date,
     required String accessPoints,
   }) {
-    _db.updateBoxItem(
-      itemId: itemId,
+    _db.updateDocument(
+      documentId: documentId,
       code: code,
       title: title,
       date: date,
@@ -73,8 +73,8 @@ class BoxDetailsStore with ChangeNotifier {
   void dispose() {
     _boxSubscription?.cancel();
     _boxSubscription = null;
-    _itemsSubscription?.cancel();
-    _itemsSubscription = null;
+    _docsSubscription?.cancel();
+    _docsSubscription = null;
     super.dispose();
   }
 }
