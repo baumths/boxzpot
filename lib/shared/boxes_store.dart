@@ -1,17 +1,17 @@
-import 'dart:async';
+import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 
-import '../../database/database.dart';
-import '../../entities/box.dart';
+import '../data/repositories/boxes_repository.dart';
+import '../entities/box.dart';
 
 class BoxesStore with ChangeNotifier {
-  BoxesStore(this._db) {
-    _subscription = _db.watchAllBoxes().listen(_onBoxesChanged);
-    _onBoxesChanged(_db.getAllBoxes());
+  BoxesStore(this._repository) {
+    _subscription = _repository.watchAllBoxes().listen(_onBoxesChanged);
+    _onBoxesChanged(_repository.getAllBoxes());
   }
 
-  final AppDatabase _db;
+  final BoxesRepository _repository;
 
   StreamSubscription<List<Box>>? _subscription;
 
@@ -28,7 +28,7 @@ class BoxesStore with ChangeNotifier {
     required String name,
     required String description,
   }) {
-    _db.createBox(
+    _repository.createBox(
       code: code,
       name: name,
       description: description,
@@ -41,8 +41,8 @@ class BoxesStore with ChangeNotifier {
     required String code,
     required String description,
   }) {
-    _db.updateBox(
-      boxId: boxId,
+    _repository.updateBox(
+      id: boxId,
       code: code,
       name: name,
       description: description,

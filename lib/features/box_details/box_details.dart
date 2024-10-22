@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
-import '../../database/database.dart';
 import '../../entities/box.dart';
 import '../../shared/box_title.dart';
 import '../box_editor/box_editor.dart';
@@ -27,7 +26,8 @@ class BoxDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BoxDetailsStore>(
       create: (_) => BoxDetailsStore(
-        database: context.read<AppDatabase>(),
+        boxesRepository: context.read(),
+        documentsRepository: context.read(),
         boxId: boxId,
       ),
       child: const BoxDetailsView(),

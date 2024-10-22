@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/box.dart';
+import '../../entities/document.dart';
 import 'box_details_store.dart';
 
 typedef DocumntEditorResult = ({
