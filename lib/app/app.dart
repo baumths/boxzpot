@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/boxes_overview/boxes_overview.dart';
+import '../features/boxes/boxes_overview.dart';
 
 class BoxzpotApp extends StatelessWidget {
   const BoxzpotApp({super.key});

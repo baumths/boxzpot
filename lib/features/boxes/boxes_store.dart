@@ -2,8 +2,8 @@ import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 
-import '../data/repositories/boxes_repository.dart';
-import '../entities/box.dart';
+import '../../data/repositories/boxes_repository.dart';
+import '../../entities/box.dart';
 
 class BoxesStore with ChangeNotifier {
   BoxesStore(this._repository) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/document.dart';
-import 'box_details_store.dart';
+import 'documents_store.dart';
 
 typedef DocumntEditorResult = ({
   String code,
@@ -24,7 +24,7 @@ class DocumentEditor extends StatefulWidget {
   final ValueChanged<DocumntEditorResult> onSubmitted;
 
   static void show(BuildContext context, {Document? document}) async {
-    final store = context.read<BoxDetailsStore>();
+    final store = context.read<DocumentsStore>();
 
     final result = await showDialog<DocumntEditorResult>(
       context: context,

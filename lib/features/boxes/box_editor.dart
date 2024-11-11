@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
-import '../../shared/boxes_store.dart';
+import 'boxes_store.dart';
 
 typedef BoxEditorResult = ({String code, String name, String description});
 

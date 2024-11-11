@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
-import '../../shared/box_title.dart';
-import '../../shared/boxes_store.dart';
-import '../box_details/box_details.dart';
-import '../box_editor/box_editor.dart';
+import 'box_details.dart';
+import 'box_editor.dart';
+import 'box_title.dart';
+import 'boxes_store.dart';
 
 class BoxesOverview extends StatelessWidget {
   const BoxesOverview({super.key});

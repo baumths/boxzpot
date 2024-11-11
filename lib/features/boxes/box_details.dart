@@ -5,11 +5,12 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../../entities/box.dart';
-import '../../shared/box_title.dart';
-import '../box_editor/box_editor.dart';
-import 'box_details_store.dart';
-import 'document_editor.dart';
-import 'documents_list.dart';
+import '../documents/document_editor.dart';
+import '../documents/documents_overview.dart';
+import '../documents/documents_store.dart';
+import 'box_editor.dart';
+import 'box_store.dart';
+import 'box_title.dart';
 
 class BoxDetails extends StatelessWidget {
   const BoxDetails({super.key, required this.boxId});
@@ -17,6 +18,7 @@ class BoxDetails extends StatelessWidget {
   final int boxId;
 
   static void show(BuildContext context, Box box) {
+    context.read<DocumentsStore>().updateBoxId(box.id);
     Navigator.of(context).push<void>(
       MaterialPageRoute(builder: (_) => BoxDetails(boxId: box.id)),
     );
@@ -24,10 +26,9 @@ class BoxDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<BoxDetailsStore>(
-      create: (_) => BoxDetailsStore(
+    return ChangeNotifierProvider<BoxStore>(
+      create: (_) => BoxStore(
         boxesRepository: context.read(),
-        documentsRepository: context.read(),
         boxId: boxId,
       ),
       child: const BoxDetailsView(),
@@ -50,7 +51,7 @@ class BoxDetailsView extends StatelessWidget {
               context: context,
               builder: (_) => Dialog(
                 child: BoxQrCodeView(
-                  box: context.read<BoxDetailsStore>().box,
+                  box: context.read<BoxStore>().box,
                 ),
               ),
             ),
@@ -59,14 +60,16 @@ class BoxDetailsView extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BoxInfoCard(),
-            SizedBox(height: 8),
-            DocumentsList(),
+            const BoxInfoCard(),
+            const SizedBox(height: 8),
+            DocumentsOverview(
+              boxId: context.read<BoxStore>().boxId,
+            ),
           ],
         ),
       ),
@@ -83,7 +86,7 @@ class BoxInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = context.select<BoxDetailsStore, Box>((store) => store.box);
+    final box = context.select<BoxStore, Box>((store) => store.box);
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.zero,

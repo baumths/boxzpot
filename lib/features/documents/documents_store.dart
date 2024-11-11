@@ -1,45 +1,32 @@
 import 'dart:async' show StreamSubscription;
 
-import 'package:flutter/foundation.dart' show ChangeNotifier;
+import 'package:flutter/foundation.dart';
 
-import '../../data/repositories/boxes_repository.dart';
 import '../../data/repositories/documents_repository.dart';
-import '../../entities/box.dart';
 import '../../entities/document.dart';
 
-class BoxDetailsStore with ChangeNotifier {
-  BoxDetailsStore({
-    required this.boxesRepository,
-    required this.documentsRepository,
-    required this.boxId,
-  }) {
-    _boxSubscription = boxesRepository.watchBox(boxId).listen(_onBoxChanged);
-    _onBoxChanged(boxesRepository.getBoxById(boxId));
-    _docsSubscription =
-        documentsRepository.watchDocumentsByBoxId(boxId).listen(_onDocsChanged);
-    _onDocsChanged(documentsRepository.getDocumentsByBoxId(boxId));
-  }
+class DocumentsStore extends ChangeNotifier {
+  DocumentsStore(this.documentsRepository);
 
-  final BoxesRepository boxesRepository;
   final DocumentsRepository documentsRepository;
-  final int boxId;
 
-  StreamSubscription<Box>? _boxSubscription;
   StreamSubscription<List<Document>>? _docsSubscription;
+
+  int? get boxId => _boxId;
+  int? _boxId;
 
   List<Document> get documents => _documents;
   List<Document> _documents = [];
 
-  Box get box => _box;
-  late Box _box;
+  void updateBoxId(int? id) {
+    if (id == boxId) return;
 
-  void _onBoxChanged(Box box) {
-    _box = box;
-    notifyListeners();
-  }
+    if (id == null) {
+      _handleBoxClosed();
+    } else {
+      _handleBoxOpened(id);
+    }
 
-  void _onDocsChanged(List<Document> docs) {
-    _documents = docs;
     notifyListeners();
   }
 
@@ -49,8 +36,11 @@ class BoxDetailsStore with ChangeNotifier {
     required String date,
     required String accessPoints,
   }) {
+    assert(boxId != null);
+    if (boxId == null) return;
+
     documentsRepository.createDocument(
-      boxId: boxId,
+      boxId: boxId!,
       code: code,
       title: title,
       date: date,
@@ -74,12 +64,29 @@ class BoxDetailsStore with ChangeNotifier {
     );
   }
 
-  @override
-  void dispose() {
-    _boxSubscription?.cancel();
-    _boxSubscription = null;
+  void _handleBoxOpened(int boxId) {
+    _boxId = boxId;
+    _documents = documentsRepository.getDocumentsByBoxId(boxId);
+    _docsSubscription = documentsRepository
+        .watchDocumentsByBoxId(boxId)
+        .listen(_handleDocumentsChanged);
+  }
+
+  void _handleDocumentsChanged(List<Document> docs) {
+    _documents = docs;
+    notifyListeners();
+  }
+
+  void _handleBoxClosed() {
+    _boxId = null;
+    _documents = [];
     _docsSubscription?.cancel();
     _docsSubscription = null;
+  }
+
+  @override
+  void dispose() {
+    _handleBoxClosed();
     super.dispose();
   }
 }

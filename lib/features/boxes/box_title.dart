@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../entities/box.dart';
+import '../../entities/box.dart';
 
 class BoxTitle extends StatelessWidget {
   const BoxTitle({

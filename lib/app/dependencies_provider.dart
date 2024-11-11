@@ -4,7 +4,8 @@ import 'package:sqlite3/common.dart';
 
 import '../data/repositories/boxes_repository.dart';
 import '../data/repositories/documents_repository.dart';
-import '../shared/boxes_store.dart';
+import '../features/boxes/boxes_store.dart';
+import '../features/documents/documents_store.dart';
 
 class DependenciesProvider extends StatelessWidget {
   const DependenciesProvider({
@@ -26,6 +27,9 @@ class DependenciesProvider extends StatelessWidget {
         Provider<BoxesRepository>.value(value: boxesRepository),
         Provider<DocumentsRepository>.value(value: documentsRepository),
         ChangeNotifierProvider(create: (_) => BoxesStore(boxesRepository)),
+        ChangeNotifierProvider(
+          create: (_) => DocumentsStore(documentsRepository),
+        ),
       ],
       child: child,
     );
