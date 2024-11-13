@@ -60,18 +60,17 @@ class BoxDetailsView extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const BoxInfoCard(),
-            const SizedBox(height: 8),
-            DocumentsOverview(
-              boxId: context.read<BoxStore>().boxId,
-            ),
-          ],
-        ),
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: BoxInfoCard(),
+          ),
+          Expanded(
+            child: DocumentsOverview(),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => DocumentEditor.show(context),
