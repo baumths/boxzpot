@@ -12,23 +12,44 @@ class DocumentsOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final docs = context.watch<DocumentsStore>().documents;
+    final documents = context.watch<DocumentsStore>().documents;
 
-    if (docs.isEmpty) {
+    if (documents.isEmpty) {
       return const SizedBox.shrink();
     }
 
+    return ResponsiveDocumentsView(
+      documents: documents,
+      onDocumentPressed: (Document document) {
+        DocumentEditor.show(context, document: document);
+      },
+    );
+  }
+}
+
+class ResponsiveDocumentsView extends StatelessWidget {
+  const ResponsiveDocumentsView({
+    super.key,
+    required this.documents,
+    required this.onDocumentPressed,
+  });
+
+  final List<Document> documents;
+  final ValueChanged<Document> onDocumentPressed;
+
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         if (constraints.maxWidth < 600) {
           return ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             children: [
-              for (final Document doc in docs)
+              for (final Document document in documents)
                 ListTile(
-                  title: Text(doc.title),
-                  subtitle: Text(doc.code),
-                  onTap: () => DocumentEditor.show(context, document: doc),
+                  title: Text(document.title),
+                  subtitle: Text(document.code),
+                  onTap: () => onDocumentPressed(document),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
@@ -46,10 +67,10 @@ class DocumentsOverview extends StatelessWidget {
             crossAxisSpacing: 16,
           ),
           children: [
-            for (final Document doc in docs)
+            for (final Document document in documents)
               DocumentCard(
-                doc: doc,
-                onPressed: () => DocumentEditor.show(context, document: doc),
+                document: document,
+                onPressed: () => onDocumentPressed(document),
               ),
           ],
         );
@@ -61,11 +82,11 @@ class DocumentsOverview extends StatelessWidget {
 class DocumentCard extends StatefulWidget {
   const DocumentCard({
     super.key,
-    required this.doc,
+    required this.document,
     required this.onPressed,
   });
 
-  final Document doc;
+  final Document document;
   final VoidCallback onPressed;
 
   @override
@@ -98,7 +119,7 @@ class _DocumentCardState extends State<DocumentCard> {
             child: Align(
               alignment: AlignmentDirectional.bottomStart,
               child: Text(
-                widget.doc.title,
+                widget.document.title,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 7,
               ),
