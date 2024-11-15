@@ -145,6 +145,30 @@ class DocumentEditorState extends State<DocumentEditor> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  if (widget.document != null)
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline_rounded),
+                      onPressed: () async {
+                        final shouldDelete = await showDialog<bool>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DeleteConfirmationDialog(
+                              onCancel: () => Navigator.pop(context, false),
+                              onConfirm: () => Navigator.pop(context, true),
+                            );
+                          },
+                        );
+                        if (shouldDelete ?? false) {
+                          if (context.mounted) {
+                            context
+                                .read<DocumentsStore>()
+                                .deleteDocument(widget.document!.id);
+                          }
+                          widget.onDismissed();
+                        }
+                      },
+                    ),
+                  const Spacer(),
                   TextButton(
                     onPressed: widget.onDismissed,
                     child: const Text('Cancel'),
@@ -169,6 +193,35 @@ class DocumentEditorState extends State<DocumentEditor> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DeleteConfirmationDialog extends StatelessWidget {
+  const DeleteConfirmationDialog({
+    super.key,
+    required this.onCancel,
+    required this.onConfirm,
+  });
+
+  final VoidCallback onCancel;
+  final VoidCallback onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Are you Sure?'),
+      content: const Text('This action cannot be undone.'),
+      actions: [
+        TextButton(
+          onPressed: onCancel,
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: onConfirm,
+          child: const Text('Delete'),
+        ),
+      ],
     );
   }
 }

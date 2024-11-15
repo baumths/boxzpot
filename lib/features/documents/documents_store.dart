@@ -48,6 +48,10 @@ class DocumentsStore extends ChangeNotifier {
     );
   }
 
+  void deleteDocument(int documentId) {
+    documentsRepository.deleteDocument(documentId);
+  }
+
   void updateDocument({
     required int documentId,
     required String code,
