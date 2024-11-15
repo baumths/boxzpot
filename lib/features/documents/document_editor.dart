@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../entities/document.dart';
 import 'documents_store.dart';
 
-typedef DocumntEditorResult = ({
+typedef DocumentEditorResult = ({
   String code,
   String title,
   String date,
@@ -21,18 +21,18 @@ class DocumentEditor extends StatefulWidget {
 
   final Document? document;
   final VoidCallback onDismissed;
-  final ValueChanged<DocumntEditorResult> onSubmitted;
+  final ValueChanged<DocumentEditorResult> onSubmitted;
 
   static void show(BuildContext context, {Document? document}) async {
     final store = context.read<DocumentsStore>();
 
-    final result = await showDialog<DocumntEditorResult>(
+    final result = await showDialog<DocumentEditorResult>(
       context: context,
       builder: (BuildContext context) => Dialog(
         child: DocumentEditor(
           document: document,
           onDismissed: () => Navigator.pop(context),
-          onSubmitted: (DocumntEditorResult result) {
+          onSubmitted: (DocumentEditorResult result) {
             Navigator.pop(context, result);
           },
         ),
