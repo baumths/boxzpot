@@ -67,6 +67,7 @@ class DocumentsStore extends ChangeNotifier {
   void _handleBoxOpened(int boxId) {
     _boxId = boxId;
     _documents = documentsRepository.getDocumentsByBoxId(boxId);
+    _sortDocuments();
     _docsSubscription = documentsRepository
         .watchDocumentsByBoxId(boxId)
         .listen(_handleDocumentsChanged);
@@ -74,6 +75,7 @@ class DocumentsStore extends ChangeNotifier {
 
   void _handleDocumentsChanged(List<Document> docs) {
     _documents = docs;
+    _sortDocuments();
     notifyListeners();
   }
 
@@ -82,6 +84,13 @@ class DocumentsStore extends ChangeNotifier {
     _documents = [];
     _docsSubscription?.cancel();
     _docsSubscription = null;
+  }
+
+  void _sortDocuments() {
+    _documents.sort((a, b) {
+      final cmp = a.code.compareTo(b.code);
+      return cmp == 0 ? a.title.compareTo(b.title) : cmp;
+    });
   }
 
   @override
