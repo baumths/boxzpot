@@ -1,78 +1,56 @@
-import 'dart:math' as math show max;
-
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show SliverConstraints;
 import 'package:provider/provider.dart';
 
 import '../../entities/document.dart';
 import 'document_editor.dart';
 import 'documents_store.dart';
 
-class DocumentsOverview extends StatelessWidget {
-  const DocumentsOverview({super.key});
+class DocumentsOverviewSliver extends StatelessWidget {
+  const DocumentsOverviewSliver({super.key});
 
   @override
   Widget build(BuildContext context) {
     final documents = context.watch<DocumentsStore>().documents;
 
     if (documents.isEmpty) {
-      return const SizedBox.shrink();
+      // TODO: empty documents view
+      return const SliverToBoxAdapter();
+    }
+    void onDocumentPressed(Document document) {
+      DocumentEditor.show(context, document: document);
     }
 
-    return ResponsiveDocumentsView(
-      documents: documents,
-      onDocumentPressed: (Document document) {
-        DocumentEditor.show(context, document: document);
-      },
-    );
-  }
-}
-
-class ResponsiveDocumentsView extends StatelessWidget {
-  const ResponsiveDocumentsView({
-    super.key,
-    required this.documents,
-    required this.onDocumentPressed,
-  });
-
-  final List<Document> documents;
-  final ValueChanged<Document> onDocumentPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        if (constraints.maxWidth < 600) {
-          return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+    return SliverLayoutBuilder(
+      builder: (BuildContext context, SliverConstraints constraints) {
+        if (constraints.crossAxisExtent < 156 * 2) {
+          return SliverList.list(
             children: [
               for (final Document document in documents)
                 ListTile(
                   title: Text(document.title),
                   subtitle: Text(document.code),
                   onTap: () => onDocumentPressed(document),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
                 ),
             ],
           );
         }
 
-        return GridView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: math.max(1, constraints.maxWidth ~/ 192),
-            mainAxisExtent: 192,
-            mainAxisSpacing: 16,
+        return SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: SliverGrid.extent(
+            maxCrossAxisExtent: 156,
+            childAspectRatio: 0.8,
             crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            children: [
+              for (final Document document in documents)
+                DocumentCard(
+                  document: document,
+                  onPressed: () => onDocumentPressed(document),
+                ),
+            ],
           ),
-          children: [
-            for (final Document document in documents)
-              DocumentCard(
-                document: document,
-                onPressed: () => onDocumentPressed(document),
-              ),
-          ],
         );
       },
     );
@@ -115,13 +93,13 @@ class _DocumentCardState extends State<DocumentCard> {
                   thickness: 0.5,
                 ),
           child: Padding(
-            padding: const EdgeInsets.all(12).copyWith(top: 24),
+            padding: const EdgeInsets.all(12).copyWith(top: 32),
             child: Align(
               alignment: AlignmentDirectional.bottomStart,
               child: Text(
                 widget.document.title,
                 overflow: TextOverflow.ellipsis,
-                maxLines: 7,
+                maxLines: 4,
               ),
             ),
           ),

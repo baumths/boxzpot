@@ -27,11 +27,13 @@ class BoxDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BoxStore>(
-      create: (_) => BoxStore(
+      create: (BuildContext context) => BoxStore(
         boxesRepository: context.read(),
         boxId: boxId,
       ),
-      child: const BoxDetailsView(),
+      child: const Material(
+        child: BoxDetailsView(),
+      ),
     );
   }
 }
@@ -41,76 +43,149 @@ class BoxDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Box'),
-        actions: [
-          IconButton(
-            onPressed: () => showDialog<void>(
+    final box = context.watch<BoxStore>().box;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth >= 700) {
+          return const Row(
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                child: SizedBox(
+                  width: 300,
+                  child: BoxDetailsSideBar(),
+                ),
+              ),
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    DocumentsOverviewSliver(),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: BoxTitle(box: box),
+              leading: IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: 'Close Box',
+                onPressed: () => Navigator.pop(context),
+              ),
+              actions: const [
+                BoxDetailsActionsBar(),
+                SizedBox(width: 8),
+              ],
+              titleSpacing: 0,
+            ),
+            const DocumentsOverviewSliver(),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class BoxDetailsSideBar extends StatelessWidget {
+  const BoxDetailsSideBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final box = context.watch<BoxStore>().box;
+
+    return Card(
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: theme.colorScheme.outlineVariant),
+      ),
+      color: theme.colorScheme.surface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: 'Close Box',
+                  onPressed: () => Navigator.pop(context),
+                ),
+                const Spacer(),
+                const BoxDetailsActionsBar(),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: BoxTitle(
+                box: box,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          if (box.description.isNotEmpty) ...[
+            const Divider(height: 0),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Text(box.description),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class BoxDetailsActionsBar extends StatelessWidget {
+  const BoxDetailsActionsBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          tooltip: 'New Document',
+          icon: const Icon(Icons.note_add_outlined),
+          onPressed: () => DocumentEditor.show(context),
+        ),
+        IconButton(
+          tooltip: 'Edit Box',
+          icon: const Icon(Icons.edit_outlined),
+          onPressed: () {
+            BoxEditor.show(
+              context,
+              box: context.read<BoxStore>().box,
+            );
+          },
+        ),
+        IconButton(
+          tooltip: 'View QR Code',
+          icon: const Icon(Icons.qr_code),
+          onPressed: () {
+            showDialog<void>(
               context: context,
               builder: (_) => Dialog(
                 child: BoxQrCodeView(
                   box: context.read<BoxStore>().box,
                 ),
               ),
-            ),
-            icon: const Icon(Icons.qr_code),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: BoxInfoCard(),
-          ),
-          Expanded(
-            child: DocumentsOverview(),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => DocumentEditor.show(context),
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class BoxInfoCard extends StatelessWidget {
-  const BoxInfoCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final box = context.select<BoxStore, Box>((store) => store.box);
-    return Card.outlined(
-      clipBehavior: Clip.hardEdge,
-      margin: EdgeInsets.zero,
-      child: InkWell(
-        onTap: () => BoxEditor.show(context, box: box),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BoxTitle(
-                  box: box,
-                  overflow: TextOverflow.visible,
-                ),
-                if (box.description.isNotEmpty) ...[
-                  const SizedBox(height: 16),
-                  Text(box.description),
-                ],
-              ],
-            ),
-          ),
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 }
