@@ -14,9 +14,13 @@ class DocumentsOverviewSliver extends StatelessWidget {
     final documents = context.watch<DocumentsStore>().documents;
 
     if (documents.isEmpty) {
-      // TODO: empty documents view
-      return const SliverToBoxAdapter();
+      return SliverFillRemaining(
+        child: EmptyDocumentsView(
+          onAddDocumentPressed: () => DocumentEditor.show(context),
+        ),
+      );
     }
+
     void onDocumentPressed(Document document) {
       DocumentEditor.show(context, document: document);
     }
@@ -53,6 +57,42 @@ class DocumentsOverviewSliver extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class EmptyDocumentsView extends StatelessWidget {
+  const EmptyDocumentsView({super.key, required this.onAddDocumentPressed});
+
+  final VoidCallback onAddDocumentPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '📄',
+            style: TextStyle(
+              fontSize: 128,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "This box appears to be empty.\nLet's add a Document to it?",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 16),
+          FilledButton(
+            onPressed: onAddDocumentPressed,
+            child: const Text('Add Document'),
+          ),
+        ],
+      ),
     );
   }
 }
