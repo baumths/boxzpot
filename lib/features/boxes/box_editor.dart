@@ -82,7 +82,7 @@ class BoxEditorState extends State<BoxEditor> {
                 widget.box == null ? 'New Box' : 'Editing Box',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               TextFormField(
                 initialValue: code,
                 decoration: const InputDecoration(
@@ -100,7 +100,7 @@ class BoxEditorState extends State<BoxEditor> {
                 },
                 onSaved: (value) => code = value?.trim() ?? '',
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: name,
                 decoration: const InputDecoration(
@@ -118,7 +118,7 @@ class BoxEditorState extends State<BoxEditor> {
                 },
                 onSaved: (value) => name = value?.trim() ?? '',
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: description,
                 maxLines: null,
@@ -127,7 +127,7 @@ class BoxEditorState extends State<BoxEditor> {
                 ),
                 onSaved: (value) => description = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

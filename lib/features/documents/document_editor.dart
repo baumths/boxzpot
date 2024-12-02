@@ -90,7 +90,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                 widget.document == null ? 'New Document' : 'Editing Document',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               TextFormField(
                 initialValue: code,
                 decoration: const InputDecoration(
@@ -108,7 +108,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                 },
                 onSaved: (value) => code = value?.trim() ?? '',
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: title,
                 decoration: const InputDecoration(
@@ -126,7 +126,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                 },
                 onSaved: (value) => title = value?.trim() ?? '',
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: date,
                 decoration: const InputDecoration(
@@ -134,7 +134,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                 ),
                 onSaved: (value) => date = value?.trim() ?? '',
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: accessPoints,
                 maxLines: null,
@@ -143,7 +143,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                 ),
                 onSaved: (value) => accessPoints = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
