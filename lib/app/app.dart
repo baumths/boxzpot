@@ -10,8 +10,19 @@ class BoxzpotApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Boxzpot',
-      theme: ThemeData.dark(),
       home: const BoxesOverview(),
+      darkTheme: createTheme(Brightness.dark),
+      theme: createTheme(Brightness.light),
+      themeMode: ThemeMode.system,
     );
   }
+}
+
+ThemeData createTheme(Brightness brightness) {
+  return ThemeData(
+    brightness: brightness,
+    inputDecorationTheme: const InputDecorationTheme(
+      border: OutlineInputBorder(),
+    ),
+  );
 }

@@ -205,6 +205,12 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final qrCodeBackgroundColor = switch (theme.brightness) {
+      Brightness.light => Colors.black,
+      Brightness.dark => Colors.white,
+    };
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: SizedBox(
@@ -215,7 +221,7 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
           children: [
             Text(
               widget.box.hash,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: theme.textTheme.headlineSmall,
             ),
             const SizedBox(height: 24),
             WidgetsToImage(
@@ -223,6 +229,14 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
               child: QrImageView(
                 data: widget.box.hash,
                 padding: EdgeInsets.zero,
+                dataModuleStyle: QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: qrCodeBackgroundColor,
+                ),
+                eyeStyle: QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: qrCodeBackgroundColor,
+                ),
               ),
             ),
             const SizedBox(height: 24),
