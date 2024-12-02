@@ -67,11 +67,14 @@ class BoxCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Card.outlined(
       margin: const EdgeInsets.all(12),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: theme.colorScheme.outlineVariant),
+      ),
       child: InkWell(
         onTap: () => BoxDetails.show(context, box),
-        borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -82,9 +85,7 @@ class BoxCard extends StatelessWidget {
               const SizedBox(height: 24),
               DecoratedBox(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.outlineVariant,
-                  ),
+                  border: Border.all(color: theme.colorScheme.outlineVariant),
                   shape: BoxShape.circle,
                 ),
                 child: const SizedBox.square(dimension: 64),
@@ -106,7 +107,6 @@ class BoxLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
         border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       child: Column(
