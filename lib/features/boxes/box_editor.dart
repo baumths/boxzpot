@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
+import '../../shared/responsive_dialog.dart';
 import 'boxes_store.dart';
 
 typedef BoxEditorResult = ({String code, String name, String description});
@@ -23,8 +24,9 @@ class BoxEditor extends StatefulWidget {
 
     final result = await showDialog<BoxEditorResult>(
       context: context,
-      builder: (BuildContext context) => Dialog(
+      builder: (BuildContext context) => ResponsiveDialog(
         child: BoxEditor(
+          key: const GlobalObjectKey('ModalBoxEditor'),
           box: box,
           onDismissed: () => Navigator.pop(context),
           onSubmitted: (BoxEditorResult result) {

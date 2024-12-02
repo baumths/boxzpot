@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/document.dart';
+import '../../shared/responsive_dialog.dart';
 import 'documents_store.dart';
 
 typedef DocumentEditorResult = ({
@@ -28,8 +29,9 @@ class DocumentEditor extends StatefulWidget {
 
     final result = await showDialog<DocumentEditorResult>(
       context: context,
-      builder: (BuildContext context) => Dialog(
+      builder: (BuildContext context) => ResponsiveDialog(
         child: DocumentEditor(
+          key: const GlobalObjectKey('ModalDocumentEditor'),
           document: document,
           onDismissed: () => Navigator.pop(context),
           onSubmitted: (DocumentEditorResult result) {
