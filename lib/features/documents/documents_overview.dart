@@ -68,6 +68,7 @@ class EmptyDocumentsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -77,14 +78,14 @@ class EmptyDocumentsView extends StatelessWidget {
             '📄',
             style: TextStyle(
               fontSize: 128,
-              color: Theme.of(context).colorScheme.primary,
+              color: theme.colorScheme.primary,
             ),
           ),
           const SizedBox(height: 16),
           Text(
             "This box appears to be empty.\nLet's add a Document to it?",
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: theme.textTheme.titleLarge,
           ),
           const SizedBox(height: 16),
           FilledButton(
