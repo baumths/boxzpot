@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
+import '../../localization/generated/app_localizations.dart';
 import 'box_details.dart';
 import 'box_editor.dart';
 import 'box_title.dart';
@@ -62,6 +63,7 @@ class EmptyBoxesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -77,14 +79,14 @@ class EmptyBoxesView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              "Couldn't find any boxes around.\nLet's add a new one?",
+              l10n.boxesOverviewEmptyMessage,
               textAlign: TextAlign.center,
               style: theme.textTheme.titleLarge,
             ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: onAddBoxPressed,
-              child: const Text('Add Box'),
+              child: Text(l10n.addBoxButtonLabel),
             ),
           ],
         ),

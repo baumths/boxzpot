@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/document.dart';
+import '../../localization/generated/app_localizations.dart';
 import '../../shared/responsive_dialog.dart';
 import 'documents_store.dart';
 
@@ -75,6 +76,7 @@ class DocumentEditorState extends State<DocumentEditor> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Form(
       key: formKey,
       autovalidateMode: AutovalidateMode.onUnfocus,
@@ -87,21 +89,24 @@ class DocumentEditorState extends State<DocumentEditor> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.document == null ? 'New Document' : 'Editing Document',
+                widget.document == null
+                    ? l10n.newDocumentFormHeaderTitle
+                    : l10n.editDocumentFormHeaderTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 24),
               TextFormField(
                 initialValue: code,
-                decoration: const InputDecoration(
-                  labelText: 'Code',
-                  helperText: 'Mandatory field.',
+                decoration: InputDecoration(
+                  labelText: l10n.documentCodeFormFieldLabel,
                 ),
                 validator: (value) {
                   if (value != null) {
                     value = value.trim();
                     if (value.isEmpty) {
-                      return 'Code must not be empty.';
+                      return l10n.emptyFormFieldValidationMessage(
+                        fieldLabel: l10n.documentCodeFormFieldLabel,
+                      );
                     }
                   }
                   return null;
@@ -111,15 +116,16 @@ class DocumentEditorState extends State<DocumentEditor> {
               const SizedBox(height: 16),
               TextFormField(
                 initialValue: title,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  helperText: 'Mandatory field.',
+                decoration: InputDecoration(
+                  labelText: l10n.documentTitleFormFieldLabel,
                 ),
                 validator: (value) {
                   if (value != null) {
                     value = value.trim();
                     if (value.isEmpty) {
-                      return 'Title must not be empty.';
+                      return l10n.emptyFormFieldValidationMessage(
+                        fieldLabel: l10n.documentTitleFormFieldLabel,
+                      );
                     }
                   }
                   return null;
@@ -129,8 +135,8 @@ class DocumentEditorState extends State<DocumentEditor> {
               const SizedBox(height: 16),
               TextFormField(
                 initialValue: date,
-                decoration: const InputDecoration(
-                  labelText: 'Date',
+                decoration: InputDecoration(
+                  labelText: l10n.documentDateFormFieldLabel,
                 ),
                 onSaved: (value) => date = value?.trim() ?? '',
               ),
@@ -138,8 +144,8 @@ class DocumentEditorState extends State<DocumentEditor> {
               TextFormField(
                 initialValue: accessPoints,
                 maxLines: null,
-                decoration: const InputDecoration(
-                  labelText: 'Access Points',
+                decoration: InputDecoration(
+                  labelText: l10n.documentAccessPointsFormFieldLabel,
                 ),
                 onSaved: (value) => accessPoints = value?.trim() ?? '',
               ),
@@ -173,7 +179,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                   const Spacer(),
                   TextButton(
                     onPressed: widget.onDismissed,
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancelButtonLabel),
                   ),
                   FilledButton(
                     onPressed: () {
@@ -187,7 +193,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                         ));
                       }
                     },
-                    child: const Text('Save'),
+                    child: Text(l10n.saveButtonLabel),
                   ),
                 ],
               ),
@@ -211,17 +217,18 @@ class DeleteConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: const Text('Are you Sure?'),
-      content: const Text('This action cannot be undone.'),
+      title: Text(l10n.deleteConfirmationDialogTitle),
+      content: Text(l10n.deleteConfirmationDialogContent),
       actions: [
         TextButton(
           onPressed: onCancel,
-          child: const Text('Cancel'),
+          child: Text(l10n.cancelButtonLabel),
         ),
         TextButton(
           onPressed: onConfirm,
-          child: const Text('Delete'),
+          child: Text(l10n.saveButtonLabel),
         ),
       ],
     );

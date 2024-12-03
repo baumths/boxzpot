@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../features/boxes/boxes_overview.dart';
+import '../localization/generated/app_localizations.dart';
 
 class BoxzpotApp extends StatelessWidget {
   const BoxzpotApp({super.key});
@@ -10,10 +11,12 @@ class BoxzpotApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Boxzpot',
-      home: const BoxesOverview(),
-      darkTheme: createTheme(Brightness.dark),
-      theme: createTheme(Brightness.light),
       themeMode: ThemeMode.system,
+      theme: createTheme(Brightness.light),
+      darkTheme: createTheme(Brightness.dark),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      home: const BoxesOverview(),
     );
   }
 }

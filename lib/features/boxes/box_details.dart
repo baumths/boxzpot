@@ -5,6 +5,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../../entities/box.dart';
+import '../../localization/generated/app_localizations.dart';
 import '../documents/document_editor.dart';
 import '../documents/documents_overview.dart';
 import '../documents/documents_store.dart';
@@ -72,7 +73,7 @@ class BoxDetailsView extends StatelessWidget {
               title: BoxTitle(box: box),
               leading: IconButton(
                 icon: const Icon(Icons.close),
-                tooltip: 'Close Box',
+                tooltip: AppLocalizations.of(context).closeBoxButtonLabel,
                 onPressed: () => Navigator.pop(context),
               ),
               actions: const [
@@ -112,7 +113,7 @@ class BoxDetailsSideBar extends StatelessWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.close),
-                  tooltip: 'Close Box',
+                  tooltip: AppLocalizations.of(context).closeBoxButtonLabel,
                   onPressed: () => Navigator.pop(context),
                 ),
                 const Spacer(),
@@ -153,16 +154,17 @@ class BoxDetailsActionsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          tooltip: 'New Document',
+          tooltip: l10n.newDocumentButtonLabel,
           icon: const Icon(Icons.note_add_outlined),
           onPressed: () => DocumentEditor.show(context),
         ),
         IconButton(
-          tooltip: 'Edit Box',
+          tooltip: l10n.editBoxButtonLabel,
           icon: const Icon(Icons.edit_outlined),
           onPressed: () {
             BoxEditor.show(
@@ -172,7 +174,7 @@ class BoxDetailsActionsBar extends StatelessWidget {
           },
         ),
         IconButton(
-          tooltip: 'View QR Code',
+          tooltip: l10n.viewBoxQrCodeButtonLabel,
           icon: const Icon(Icons.qr_code),
           onPressed: () {
             showDialog<void>(

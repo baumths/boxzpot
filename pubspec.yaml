@@ -10,6 +10,8 @@ dependencies:
   cross_file: ^0.3.4+2
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   provider: ^6.1.2
   qr_flutter: ^4.1.0
   sqlite3: ^2.4.7
@@ -22,4 +24,5 @@ dev_dependencies:
   sqlite3_flutter_libs: ^0.5.24
 
 flutter:
+  generate: true
   uses-material-design: true

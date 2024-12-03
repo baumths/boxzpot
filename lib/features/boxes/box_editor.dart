@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/box.dart';
+import '../../localization/generated/app_localizations.dart';
 import '../../shared/responsive_dialog.dart';
 import 'boxes_store.dart';
 
@@ -67,6 +68,7 @@ class BoxEditorState extends State<BoxEditor> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Form(
       autovalidateMode: AutovalidateMode.onUnfocus,
       key: formKey,
@@ -79,21 +81,24 @@ class BoxEditorState extends State<BoxEditor> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.box == null ? 'New Box' : 'Editing Box',
+                widget.box == null
+                    ? l10n.newBoxFormHeaderTitle
+                    : l10n.editBoxFormHeaderTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 24),
               TextFormField(
                 initialValue: code,
-                decoration: const InputDecoration(
-                  labelText: 'Code',
-                  helperText: 'Mandatory field.',
+                decoration: InputDecoration(
+                  labelText: l10n.boxCodeFormFieldLabel,
                 ),
                 validator: (value) {
                   if (value != null) {
                     value = value.trim();
                     if (value.isEmpty) {
-                      return 'Code must not be empty.';
+                      return l10n.emptyFormFieldValidationMessage(
+                        fieldLabel: l10n.boxCodeFormFieldLabel,
+                      );
                     }
                   }
                   return null;
@@ -103,15 +108,16 @@ class BoxEditorState extends State<BoxEditor> {
               const SizedBox(height: 16),
               TextFormField(
                 initialValue: name,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  helperText: 'Mandatory field.',
+                decoration: InputDecoration(
+                  labelText: l10n.boxNameFormFieldLabel,
                 ),
                 validator: (value) {
                   if (value != null) {
                     value = value.trim();
                     if (value.isEmpty) {
-                      return 'Name must not be empty.';
+                      return l10n.emptyFormFieldValidationMessage(
+                        fieldLabel: l10n.boxNameFormFieldLabel,
+                      );
                     }
                   }
                   return null;
@@ -122,8 +128,8 @@ class BoxEditorState extends State<BoxEditor> {
               TextFormField(
                 initialValue: description,
                 maxLines: null,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
+                decoration: InputDecoration(
+                  labelText: l10n.boxDescriptionFormFieldLabel,
                 ),
                 onSaved: (value) => description = value?.trim() ?? '',
               ),
@@ -133,7 +139,7 @@ class BoxEditorState extends State<BoxEditor> {
                 children: [
                   TextButton(
                     onPressed: widget.onDismissed,
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancelButtonLabel),
                   ),
                   FilledButton(
                     onPressed: () {
@@ -146,7 +152,7 @@ class BoxEditorState extends State<BoxEditor> {
                         ));
                       }
                     },
-                    child: const Text('Save'),
+                    child: Text(l10n.saveButtonLabel),
                   ),
                 ],
               ),

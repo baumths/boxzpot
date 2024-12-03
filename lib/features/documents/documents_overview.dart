@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart' show SliverConstraints;
 import 'package:provider/provider.dart';
 
 import '../../entities/document.dart';
+import '../../localization/generated/app_localizations.dart';
 import 'document_editor.dart';
 import 'documents_store.dart';
 
@@ -69,6 +70,7 @@ class EmptyDocumentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -83,14 +85,14 @@ class EmptyDocumentsView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            "This box appears to be empty.\nLet's add a Document to it?",
+            l10n.boxDocumentsOverviewEmptyMessage,
             textAlign: TextAlign.center,
             style: theme.textTheme.titleLarge,
           ),
           const SizedBox(height: 16),
           FilledButton(
             onPressed: onAddDocumentPressed,
-            child: const Text('Add Document'),
+            child: Text(l10n.addDocumentButtonLabel),
           ),
         ],
       ),

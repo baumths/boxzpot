@@ -1,0 +1,33 @@
+{
+  "addBoxButtonLabel": "Add Box",
+  "addDocumentButtonLabel": "Add Document",
+  "boxCodeFormFieldLabel": "Code",
+  "boxDescriptionFormFieldLabel": "Description",
+  "boxDocumentsOverviewEmptyMessage": "This box appears to be empty.\nLet's add a Document to it?",
+  "boxesOverviewEmptyMessage": "Couldn't find any boxes around.\nLet's add a new one?",
+  "boxNameFormFieldLabel": "Name",
+  "cancelButtonLabel": "Cancel",
+  "closeBoxButtonLabel": "Close Box",
+  "deleteConfirmationDialogContent": "This action cannot be undone.",
+  "deleteConfirmationDialogTitle": "Are you sure?",
+  "documentAccessPointsFormFieldLabel": "Access Points",
+  "documentCodeFormFieldLabel": "Code",
+  "documentDateFormFieldLabel": "Date",
+  "documentTitleFormFieldLabel": "Title",
+  "editBoxButtonLabel": "Edit Box",
+  "editBoxFormHeaderTitle": "Editing Box",
+  "editDocumentFormHeaderTitle": "Editing Document",
+  "emptyFormFieldValidationMessage": "{fieldLabel} must not be empty.",
+  "@emptyFormFieldValidationMessage": {
+    "placeholders": {
+      "fieldLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "newBoxFormHeaderTitle": "New Box",
+  "newDocumentButtonLabel": "New Document",
+  "newDocumentFormHeaderTitle": "New Document",
+  "saveButtonLabel": "Save",
+  "viewBoxQrCodeButtonLabel": "View QR Code"
+}
