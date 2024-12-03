@@ -1,0 +1,33 @@
+{
+  "addBoxButtonLabel": "Adicionar Caixa",
+  "addDocumentButtonLabel": "Adicionar Documento",
+  "boxCodeFormFieldLabel": "Código",
+  "boxDescriptionFormFieldLabel": "Descrição",
+  "boxDocumentsOverviewEmptyMessage": "Esta caixa está aparentemente vazia.\nVamos adicionar um documento a ela?",
+  "boxesOverviewEmptyMessage": "Não foi possível encontrar nenhuma caixa.\nVamos adicionar uma nova?",
+  "boxNameFormFieldLabel": "Nome",
+  "cancelButtonLabel": "Cancelar",
+  "closeBoxButtonLabel": "Fechar Caixa",
+  "deleteConfirmationDialogContent": "Esta ação não pode ser desfeita.",
+  "deleteConfirmationDialogTitle": "Tem certeza?",
+  "documentAccessPointsFormFieldLabel": "Pontos de Acesso",
+  "documentCodeFormFieldLabel": "Código",
+  "documentDateFormFieldLabel": "Data",
+  "documentTitleFormFieldLabel": "Título",
+  "editBoxButtonLabel": "Editar Caixa",
+  "editBoxFormHeaderTitle": "Editando Caixa",
+  "editDocumentFormHeaderTitle": "Editando Documento",
+  "emptyFormFieldValidationMessage": "{fieldLabel} não pode estar em branco.",
+  "@emptyFormFieldValidationMessage": {
+    "placeholders": {
+      "fieldLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "newBoxFormHeaderTitle": "Nova Caixa",
+  "newDocumentButtonLabel": "Novo Documento",
+  "newDocumentFormHeaderTitle": "Novo Documento",
+  "saveButtonLabel": "Salvar",
+  "viewBoxQrCodeButtonLabel": "Visualizar QR Code"
+}
