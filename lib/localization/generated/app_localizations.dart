@@ -185,6 +185,12 @@ abstract class AppLocalizations {
   /// **'Title'**
   String get documentTitleFormFieldLabel;
 
+  /// No description provided for @downloadButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadButtonLabel;
+
   /// No description provided for @editBoxButtonLabel.
   ///
   /// In en, this message translates to:

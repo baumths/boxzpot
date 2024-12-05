@@ -216,10 +216,9 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: SizedBox(
-        width: 256,
+        width: 300,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               widget.box.hash,
@@ -242,20 +241,23 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
               ),
             ),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            OverflowBar(
+              spacing: 8,
+              overflowSpacing: 8,
+              alignment: MainAxisAlignment.end,
+              overflowAlignment: OverflowBarAlignment.center,
               children: [
-                IconButton.outlined(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
-                  tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-                  visualDensity: buttonsVisualDensity,
-                  icon: const Icon(Icons.close),
+                  child: Text(
+                    MaterialLocalizations.of(context).closeButtonTooltip,
+                  ),
                 ),
-                IconButton.filled(
+                FilledButton.tonal(
                   onPressed: download,
-                  tooltip: 'Download',
-                  visualDensity: buttonsVisualDensity,
-                  icon: const Icon(Icons.save_alt),
+                  child: Text(
+                    AppLocalizations.of(context).downloadButtonLabel,
+                  ),
                 ),
               ],
             ),

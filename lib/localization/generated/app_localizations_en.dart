@@ -52,6 +52,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentTitleFormFieldLabel => 'Title';
 
   @override
+  String get downloadButtonLabel => 'Download';
+
+  @override
   String get editBoxButtonLabel => 'Edit Box';
 
   @override

@@ -14,6 +14,7 @@
   "documentCodeFormFieldLabel": "Code",
   "documentDateFormFieldLabel": "Date",
   "documentTitleFormFieldLabel": "Title",
+  "downloadButtonLabel": "Download",
   "editBoxButtonLabel": "Edit Box",
   "editBoxFormHeaderTitle": "Editing Box",
   "editDocumentFormHeaderTitle": "Editing Document",

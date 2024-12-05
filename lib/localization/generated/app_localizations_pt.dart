@@ -52,6 +52,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get documentTitleFormFieldLabel => 'Título';
 
   @override
+  String get downloadButtonLabel => 'Baixar';
+
+  @override
   String get editBoxButtonLabel => 'Editar Caixa';
 
   @override
