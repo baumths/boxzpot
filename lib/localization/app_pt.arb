@@ -1,6 +1,7 @@
 {
   "addBoxButtonLabel": "Adicionar Caixa",
   "addDocumentButtonLabel": "Adicionar Documento",
+  "boxCode": "Código da Caixa",
   "boxCodeFormFieldLabel": "Código",
   "boxDescriptionFormFieldLabel": "Descrição",
   "boxDocumentsOverviewEmptyMessage": "Esta caixa está aparentemente vazia.\nVamos adicionar um documento a ela?",

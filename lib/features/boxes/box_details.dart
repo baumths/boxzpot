@@ -205,59 +205,38 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
   final buttonsVisualDensity = const VisualDensity(horizontal: 4, vertical: 4);
   final controller = WidgetsToImageController();
 
+  var showBoxCode = true;
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final qrCodeBackgroundColor = switch (theme.brightness) {
-      Brightness.light => Colors.black,
-      Brightness.dark => Colors.white,
-    };
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: SizedBox(
-        width: 300,
+        width: 312,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              widget.box.hash,
-              style: theme.textTheme.headlineSmall,
+            QrCodeCard(
+              data: widget.box.hash,
+              showDataAsSubtitle: showBoxCode,
+              widgetsToImageController: controller,
             ),
             const SizedBox(height: 24),
-            WidgetsToImage(
-              controller: controller,
-              child: QrImageView(
-                data: widget.box.hash,
-                padding: EdgeInsets.zero,
-                dataModuleStyle: QrDataModuleStyle(
-                  dataModuleShape: QrDataModuleShape.square,
-                  color: qrCodeBackgroundColor,
-                ),
-                eyeStyle: QrEyeStyle(
-                  eyeShape: QrEyeShape.square,
-                  color: qrCodeBackgroundColor,
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            OverflowBar(
-              spacing: 8,
-              overflowSpacing: 8,
-              alignment: MainAxisAlignment.end,
-              overflowAlignment: OverflowBarAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    MaterialLocalizations.of(context).closeButtonTooltip,
-                  ),
+                const CloseButton(),
+                IconButton(
+                  onPressed: () => setState(() => showBoxCode = !showBoxCode),
+                  tooltip: 'Box Code',
+                  icon: showBoxCode
+                      ? const Icon(Icons.subtitles)
+                      : const Icon(Icons.subtitles_outlined),
                 ),
-                FilledButton.tonal(
+                IconButton(
                   onPressed: download,
-                  child: Text(
-                    AppLocalizations.of(context).downloadButtonLabel,
-                  ),
+                  tooltip: AppLocalizations.of(context).downloadButtonLabel,
+                  icon: const Icon(Icons.save_alt),
                 ),
               ],
             ),
@@ -279,5 +258,68 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
     );
 
     file.saveTo('./$fileName');
+  }
+}
+
+class QrCodeCard extends StatelessWidget {
+  const QrCodeCard({
+    super.key,
+    required this.data,
+    required this.showDataAsSubtitle,
+    required this.widgetsToImageController,
+  });
+
+  final String data;
+  final bool showDataAsSubtitle;
+  final WidgetsToImageController widgetsToImageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 8,
+            spreadRadius: -2,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: WidgetsToImage(
+          controller: widgetsToImageController,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              QrImageView(
+                data: data,
+                padding: EdgeInsets.zero,
+                dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: Colors.black,
+                ),
+                eyeStyle: const QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: Colors.black,
+                ),
+              ),
+              if (showDataAsSubtitle) ...[
+                const SizedBox(height: 12),
+                Text(
+                  data,
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

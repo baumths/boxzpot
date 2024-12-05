@@ -107,6 +107,12 @@ abstract class AppLocalizations {
   /// **'Add Document'**
   String get addDocumentButtonLabel;
 
+  /// No description provided for @boxCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Box Code'**
+  String get boxCode;
+
   /// No description provided for @boxCodeFormFieldLabel.
   ///
   /// In en, this message translates to:

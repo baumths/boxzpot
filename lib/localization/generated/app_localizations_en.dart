@@ -13,6 +13,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addDocumentButtonLabel => 'Add Document';
 
   @override
+  String get boxCode => 'Box Code';
+
+  @override
   String get boxCodeFormFieldLabel => 'Code';
 
   @override

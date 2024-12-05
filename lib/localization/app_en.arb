@@ -1,6 +1,7 @@
 {
   "addBoxButtonLabel": "Add Box",
   "addDocumentButtonLabel": "Add Document",
+  "boxCode": "Box Code",
   "boxCodeFormFieldLabel": "Code",
   "boxDescriptionFormFieldLabel": "Description",
   "boxDocumentsOverviewEmptyMessage": "This box appears to be empty.\nLet's add a Document to it?",
