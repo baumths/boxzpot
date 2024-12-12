@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vector_graphics/vector_graphics_compat.dart';
 
 import '../../entities/box.dart';
 import '../../localization/generated/app_localizations.dart';
@@ -69,13 +70,14 @@ class EmptyBoxesView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 16,
+          spacing: 24,
           children: [
-            Text(
-              '🗃️',
-              style: TextStyle(
-                fontSize: 128,
-                color: theme.colorScheme.primary,
+            VectorGraphic(
+              loader: const AssetBytesLoader('assets/archive-folders.svg'),
+              height: 256,
+              colorFilter: ColorFilter.mode(
+                theme.colorScheme.onSurface,
+                BlendMode.srcIn,
               ),
             ),
             Text(

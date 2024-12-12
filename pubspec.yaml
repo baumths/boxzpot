@@ -16,14 +16,23 @@ dependencies:
   provider: ^6.1.2
   qr_flutter: ^4.1.0
   sqlite3: ^2.4.7
+  vector_graphics: ^1.1.15
   widgets_to_image: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
+  vector_graphics_compiler: ^1.1.15
   sqlite3_flutter_libs: ^0.5.24
 
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - path: assets/archive-folders.svg
+      transformers:
+        - package: vector_graphics_compiler
+    - path: assets/documents-stack.svg
+      transformers:
+        - package: vector_graphics_compiler
