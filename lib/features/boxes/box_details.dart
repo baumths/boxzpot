@@ -105,24 +105,24 @@ class BoxDetailsSideBar extends StatelessWidget {
       ),
       color: theme.colorScheme.surface,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 16,
         children: [
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   icon: const Icon(Icons.close),
                   tooltip: AppLocalizations.of(context).closeBoxButtonLabel,
                   onPressed: () => Navigator.pop(context),
                 ),
-                const Spacer(),
                 const BoxDetailsActionsBar(),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: BoxTitle(
@@ -135,10 +135,7 @@ class BoxDetailsSideBar extends StatelessWidget {
             const Divider(height: 0),
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(box.description),
               ),
             ),
@@ -215,13 +212,13 @@ class _BoxQrCodeViewState extends State<BoxQrCodeView> {
         width: 312,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          spacing: 24,
           children: [
             QrCodeCard(
               data: widget.box.hash,
               showDataAsSubtitle: showBoxCode,
               widgetsToImageController: controller,
             ),
-            const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -292,7 +289,7 @@ class QrCodeCard extends StatelessWidget {
         child: WidgetsToImage(
           controller: widgetsToImageController,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            spacing: 12,
             children: [
               QrImageView(
                 data: data,
@@ -306,8 +303,7 @@ class QrCodeCard extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              if (showDataAsSubtitle) ...[
-                const SizedBox(height: 12),
+              if (showDataAsSubtitle)
                 Text(
                   data,
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -315,7 +311,6 @@ class QrCodeCard extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                 ),
-              ],
             ],
           ),
         ),

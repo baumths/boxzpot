@@ -4,7 +4,8 @@ publish_to: 'none'
 version: 1.0.0-0
 
 environment:
-  sdk: ^3.5.3
+  sdk: ^3.6.0
+  flutter: ^3.27.0
 
 dependencies:
   cross_file: ^0.3.4+2
@@ -18,7 +19,7 @@ dependencies:
   widgets_to_image: ^1.0.0
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
   sqlite3_flutter_libs: ^0.5.24

@@ -79,6 +79,7 @@ class BoxEditorState extends State<BoxEditor> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
             children: [
               Text(
                 widget.box == null
@@ -86,7 +87,7 @@ class BoxEditorState extends State<BoxEditor> {
                     : l10n.editBoxFormHeaderTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(),
               TextFormField(
                 initialValue: code,
                 decoration: InputDecoration(
@@ -105,7 +106,6 @@ class BoxEditorState extends State<BoxEditor> {
                 },
                 onSaved: (value) => code = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
               TextFormField(
                 initialValue: name,
                 decoration: InputDecoration(
@@ -124,7 +124,6 @@ class BoxEditorState extends State<BoxEditor> {
                 },
                 onSaved: (value) => name = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
               TextFormField(
                 initialValue: description,
                 maxLines: null,
@@ -133,7 +132,7 @@ class BoxEditorState extends State<BoxEditor> {
                 ),
                 onSaved: (value) => description = value?.trim() ?? '',
               ),
-              const SizedBox(height: 24),
+              const SizedBox(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

@@ -75,6 +75,7 @@ class EmptyDocumentsView extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 16,
         children: [
           Text(
             '📄',
@@ -83,13 +84,11 @@ class EmptyDocumentsView extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 16),
           Text(
             l10n.boxDocumentsOverviewEmptyMessage,
             textAlign: TextAlign.center,
             style: theme.textTheme.titleLarge,
           ),
-          const SizedBox(height: 16),
           FilledButton(
             onPressed: onAddDocumentPressed,
             child: Text(l10n.addDocumentButtonLabel),

@@ -87,6 +87,7 @@ class DocumentEditorState extends State<DocumentEditor> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
             children: [
               Text(
                 widget.document == null
@@ -94,7 +95,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                     : l10n.editDocumentFormHeaderTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(),
               TextFormField(
                 initialValue: code,
                 decoration: InputDecoration(
@@ -113,7 +114,6 @@ class DocumentEditorState extends State<DocumentEditor> {
                 },
                 onSaved: (value) => code = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
               TextFormField(
                 initialValue: title,
                 decoration: InputDecoration(
@@ -132,7 +132,6 @@ class DocumentEditorState extends State<DocumentEditor> {
                 },
                 onSaved: (value) => title = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
               TextFormField(
                 initialValue: date,
                 decoration: InputDecoration(
@@ -140,7 +139,6 @@ class DocumentEditorState extends State<DocumentEditor> {
                 ),
                 onSaved: (value) => date = value?.trim() ?? '',
               ),
-              const SizedBox(height: 16),
               TextFormField(
                 initialValue: accessPoints,
                 maxLines: null,
@@ -149,7 +147,7 @@ class DocumentEditorState extends State<DocumentEditor> {
                 ),
                 onSaved: (value) => accessPoints = value?.trim() ?? '',
               ),
-              const SizedBox(height: 24),
+              const SizedBox(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
